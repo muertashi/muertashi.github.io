@@ -4,7 +4,7 @@ title: 重新出发--每周记
 layout: post
 ---
 
-<img src="https://muertashi.github.io/public/20161113_001.jpg" alt="Drawing" style="width: 200px;height: 200px;"/>
+<img src="https://muertashi.github.io/public/20161113_001.jpg" alt="Drawing" align="middle" style="width: 320px;height: 320px;"/>
 
 -----------------------------------------
 
