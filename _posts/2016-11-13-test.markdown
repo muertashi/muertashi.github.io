@@ -3,7 +3,7 @@ published: true
 title: 重新出发--每周记
 layout: post
 ---
- [<img src="./public/20161113_000.jpg">](https://muertashi.github.io/public/20161113_000.jpg)
+ [<img src="./public/20161113_001.jpg">](https://muertashi.github.io/public/20161113_001.jpg)
 
 -----------------------------------------
 
