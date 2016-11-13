@@ -4,4 +4,4 @@ title: Test
 layout: post
 ---
 This is a test.
-Image test: [<img src="http://www.google.com.au/images/nav_logo7.png">](http://google.com.au/)
+ [<img src="./public/20161113_000.jpg">](https://muertashi.github.io/public/20161113_000.jpg)
