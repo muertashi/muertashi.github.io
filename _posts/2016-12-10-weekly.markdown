@@ -1,0 +1,7 @@
+---
+published: true
+title: 若为自由故
+layout: post
+---
+
+content
