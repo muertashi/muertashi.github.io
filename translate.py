@@ -3,6 +3,7 @@ import sys
 
 CONTENT_PATH = './content/'
 TEMPLATE_HTML = './template.html'
+TEMPLATE_INDEX_HTML = './template_index.html'
 INDEX_FILE = 'index'
 SITE_TITLE = '凹凸香港尖货推荐'
 
@@ -22,13 +23,19 @@ def process_content(filename, temp_html):
     temp_html = temp_html.replace('???content???', body)
     return {'errcode':0, 'head':head, 'html':temp_html}
 
-def load_template():
+def load_template(temp_file):
     temp_html = ''
-    if os.path.isfile(TEMPLATE_HTML):
-        with open(TEMPLATE_HTML) as template:
+    if os.path.isfile(temp_file):
+        with open(temp_file) as template:
             for line in template:
-                temp_html += line+'\n'
+                temp_html += line
     return temp_html
+
+def load_temp_detail():
+    return load_template(TEMPLATE_HTML)
+
+def load_temp_index():
+    return load_template(TEMPLATE_INDEX_HTML)
 
 def output_html(filename, html_content):
     f = open(filename+'.html', 'w')
@@ -44,8 +51,8 @@ def process_index(link_list, temp_html):
     output_html(INDEX_FILE, temp_html)
 
 def main():
-    # load template
-    temp_html = load_template()
+    # load template for content page
+    temp_html = load_temp_detail()
     if (temp_html == ''):
         print('FATAL: template html file not found!')
         return
@@ -62,8 +69,14 @@ def main():
                 result['file'] = fn
                 link_list.append(result)
 
+    #load template for index page
+    temp_index_html = load_temp_index()
+    if (temp_index_html == ''):
+        print('FATAL: template html for index file not found!')
+        return
     # process the index
-    process_index(link_list, temp_html)
+    process_index(link_list, temp_index_html)
+    print('Finish the index page generate!')
 
 if __name__ == '__main__':
     main()
