@@ -38,7 +38,7 @@ def output_html(filename, html_content):
 def process_index(link_list, temp_html):
     index_body = ''
     for link in link_list:
-        index_body += '<a href="/'+link['file']+'.html">'+link['head']+'</a><br>\n'
+        index_body += '<a href="/'+link['file']+'.html">'+link['head']+'</a><br><br>\n'
     temp_html = temp_html.replace('???title???', SITE_TITLE)
     temp_html = temp_html.replace('???content???', index_body)
     output_html(INDEX_FILE, temp_html)
