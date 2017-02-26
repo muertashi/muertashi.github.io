@@ -2,18 +2,21 @@ import os
 import sys
 
 CONTENT_PATH = './content/'
-TEMPLATE_HTML = './template.html'
-TEMPLATE_INDEX_HTML = './template_index.html'
+TEMPLATE_HTML = './template/template.html'
+TEMPLATE_INDEX_HTML = './template/template_index.html'
 INDEX_FILE = 'index'
 SITE_TITLE = '凹凸香港尖货推荐'
 
 def process_content(filename, temp_html):
     head = ''
     body = ''
+    group = ''
     with open(CONTENT_PATH + filename) as f:
         for line in f:
             line = line[:-1]
-            if (line.startswith('title:')):
+            if (line.startswith('group:')):
+                group = line[6:]
+            elif (line.startswith('title:')):
                 head = line[6:]
             elif (line.startswith('img:')):
                 body += '<img src="'+line[4:]+'">\n'
@@ -21,7 +24,7 @@ def process_content(filename, temp_html):
                 body += '<p>' + line + '</p>\n'
     temp_html = temp_html.replace('???title???', head)
     temp_html = temp_html.replace('???content???', body)
-    return {'errcode':0, 'head':head, 'html':temp_html}
+    return {'errcode':0, 'head':head, 'html':temp_html, 'group':group}
 
 def load_template(temp_file):
     temp_html = ''
@@ -44,8 +47,21 @@ def output_html(filename, html_content):
 
 def process_index(link_list, temp_html):
     index_body = ''
+    group_list = {}
     for link in link_list:
-        index_body += '<a href="/'+link['file']+'.html">'+link['head']+'</a><br><br>\n'
+        if 'group' in link:
+            if link['group'] not in group_list:
+                group_list[link['group']] = []
+            group_list[link['group']].append(link)
+        else:
+            if 'other' not in group_list:
+                group_list['other'] = []
+            group_list['other'].append(link)
+
+    for group_name, group_item in group_list.items():
+        index_body += '<h3>'+group_name+'</h3>\n'
+        for link in group_item:
+            index_body += '<a href="/'+link['file']+'.html">'+link['head']+'</a><br><br>\n'
     temp_html = temp_html.replace('???title???', SITE_TITLE)
     temp_html = temp_html.replace('???content???', index_body)
     output_html(INDEX_FILE, temp_html)
