@@ -54,9 +54,9 @@ def process_index(link_list, temp_html):
                 group_list[link['group']] = []
             group_list[link['group']].append(link)
         else:
-            if 'other' not in group_list:
-                group_list['other'] = []
-            group_list['other'].append(link)
+            if '其他' not in group_list:
+                group_list['其他'] = []
+            group_list['其他'].append(link)
 
     for group_name, group_item in group_list.items():
         index_body += '<h3>'+group_name+'</h3>\n'
