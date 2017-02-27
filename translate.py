@@ -1,5 +1,6 @@
 import os
 import sys
+import time
 
 CONTENT_PATH = './content/'
 TEMPLATE_HTML = './template/template.html'
@@ -24,7 +25,7 @@ def process_content(filename, temp_html):
                 body += '<p>' + line + '</p>\n'
     temp_html = temp_html.replace('???title???', head)
     temp_html = temp_html.replace('???content???', body)
-    return {'errcode':0, 'head':head, 'html':temp_html, 'group':group}
+    return {'errcode':0, 'head':head, 'html':temp_html, 'group':group, 'modify_ts':os.path.getmtime(CONTENT_PATH+filename)}
 
 def load_template(temp_file):
     temp_html = ''
@@ -48,7 +49,13 @@ def output_html(filename, html_content):
 def process_index(link_list, temp_html):
     index_body = ''
     group_list = {}
+    newest_link_ts = 0
+    newest_link = None
     for link in link_list:
+        if 'modify_ts' in link:
+            if link['modify_ts'] > newest_link_ts:
+                newest_link_ts = link['modify_ts']
+                newest_link = link
         if 'group' in link:
             if link['group'] not in group_list:
                 group_list[link['group']] = []
@@ -57,6 +64,10 @@ def process_index(link_list, temp_html):
             if '其他' not in group_list:
                 group_list['其他'] = []
             group_list['其他'].append(link)
+
+    #最近更新
+    index_body += '<h3>最新尖货'+time.strftime('%m/%d') +'</h3>\n'
+    index_body += '<a href="/'+newest_link['file']+'.html">'+newest_link['head']+'</a><br>\n'
 
     for group_name, group_item in group_list.items():
         index_body += '<h3>'+group_name+'</h3>\n'
