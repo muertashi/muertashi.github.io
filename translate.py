@@ -99,7 +99,9 @@ def main():
     for link in link_list:
         #recommend same group item
         link['content'] += '<hr><h2>猜你喜欢</h2>'
-        for recommend in random.sample(group_list[link['group']], 2):
+        for recommend in random.sample(group_list[link['group']], 3):
+            if link['title'] == recommend['title']:
+                continue
             link['content'] += '<p><a href="/'+recommend['file']+'.html?from=recommend">'+recommend['title']+'</a></p>'
         output_html(link['file'], temp_html, link['title'], link['content'])
         print("Finish:"+link['file']+" title:"+link["title"])
