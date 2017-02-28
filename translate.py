@@ -81,10 +81,10 @@ def main():
     # sort them with group
     group_list = {}
     newest_list = []
-    expire_ts = time.time() - 2*24*3600; #two days expire
+    expire_ts = time.time() - 1800; #two days expire
     for link in link_list:
         if 'modify_ts' in link:
-            if link['modify_ts'] > expire_ts and len(newest_list) < 3:
+            if link['modify_ts'] > expire_ts and len(newest_list) < 5:
                 newest_list.append(link)
         if 'group' in link:
             if link['group'] not in group_list:
