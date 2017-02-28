@@ -49,13 +49,12 @@ def output_html(filename, html_content):
 def process_index(link_list, temp_html):
     index_body = ''
     group_list = {}
-    newest_link_ts = 0
-    newest_link = None
+    newest_list = []
+    expire_ts = time.time() - 2*24*3600; #two days expire
     for link in link_list:
         if 'modify_ts' in link:
-            if link['modify_ts'] > newest_link_ts:
-                newest_link_ts = link['modify_ts']
-                newest_link = link
+            if link['modify_ts'] > expire_ts:
+                newest_list.append(link)
         if 'group' in link:
             if link['group'] not in group_list:
                 group_list[link['group']] = []
@@ -67,7 +66,8 @@ def process_index(link_list, temp_html):
 
     #最近更新
     index_body += '<h3>最新尖货'+time.strftime('%m/%d') +'</h3>\n'
-    index_body += '<a href="/'+newest_link['file']+'.html">'+newest_link['head']+'</a><p style="color:red;display:inline" class="tab blink">new!</p><br>\n'
+    for link in newest_list:
+        index_body += '<a href="/'+link['file']+'.html">'+link['head']+'</a><p style="color:red;display:inline" class="tab blink">new!</p><br><br>\n'
 
     for group_name, group_item in group_list.items():
         index_body += '<h3>'+group_name+'</h3>\n'
