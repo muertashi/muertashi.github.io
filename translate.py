@@ -84,7 +84,7 @@ def main():
     expire_ts = time.time() - 2*24*3600; #two days expire
     for link in link_list:
         if 'modify_ts' in link:
-            if link['modify_ts'] > expire_ts:
+            if link['modify_ts'] > expire_ts and len(newest_list) < 3:
                 newest_list.append(link)
         if 'group' in link:
             if link['group'] not in group_list:
