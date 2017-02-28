@@ -67,7 +67,7 @@ def process_index(link_list, temp_html):
 
     #最近更新
     index_body += '<h3>最新尖货'+time.strftime('%m/%d') +'</h3>\n'
-    index_body += '<a href="/'+newest_link['file']+'.html">'+newest_link['head']+'</a><br>\n'
+    index_body += '<a href="/'+newest_link['file']+'.html">'+newest_link['head']+'</a><p style="color:red;display:inline" class="tab blink">new!</p><br>\n'
 
     for group_name, group_item in group_list.items():
         index_body += '<h3>'+group_name+'</h3>\n'
