@@ -60,7 +60,7 @@ def process_index(group_list, newest_list, temp_html):
     for group_name, group_item in group_list.items():
         index_body += '<h3>'+group_name+'</h3>\n'
         for link in group_item:
-            index_body += '<a href="/'+link['file']+'.html">'+link['title']+'</a><br><br>\n'
+            index_body += '<a href="/'+link['file']+'.html"><img src="'+link['imgs'][0]+'"><br/>'+link['title']+'</a><br><br>\n'
     output_html(INDEX_FILE, temp_html, SITE_TITLE, index_body)
 
 def main():
@@ -83,7 +83,7 @@ def main():
     # sort them with group
     group_list = {}
     newest_list = []
-    expire_ts = time.time() - 2*24*3600; #two days expire
+    expire_ts = time.time() - 1300; #two days expire
     for link in link_list:
         if 'modify_ts' in link:
             if link['modify_ts'] > expire_ts and len(newest_list) < 5:
