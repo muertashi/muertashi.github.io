@@ -13,6 +13,7 @@ def parse_content(filename):
     title = ''
     content = ''
     group = ''
+    imgs = []
     with open(CONTENT_PATH + filename) as f:
         for line in f:
             line = line[:-1]
@@ -22,9 +23,10 @@ def parse_content(filename):
                 title = line[6:]
             elif (line.startswith('img:')):
                 content += '<p><img src="'+line[4:]+'"></p>\n'
+                imgs.append(line[4:])
             else:
                 content += '<p>' + line + '</p>\n'
-    return {'errcode':0, 'title':title, 'group':group, 'content':content, 'modify_ts':os.path.getmtime(CONTENT_PATH+filename)}
+    return {'errcode':0, 'title':title, 'group':group, 'content':content, 'imgs':imgs, 'modify_ts':os.path.getmtime(CONTENT_PATH+filename)}
 
 def load_template(temp_file):
     temp_html = ''
@@ -53,7 +55,7 @@ def process_index(group_list, newest_list, temp_html):
     #最近更新
     index_body += '<h3>最新尖货'+time.strftime('%m/%d') +'</h3>\n'
     for link in newest_list:
-        index_body += '<a href="/'+link['file']+'.html">'+link['title']+'</a><p style="color:red;display:inline" class="tab blink">new!</p><br><br>\n'
+        index_body += '<a href="/'+link['file']+'.html"><img src="'+link['imgs'][0]+'"><br/>'+link['title']+'</a><p style="color:red;display:inline" class="tab blink">new!</p><br><br>\n'
 
     for group_name, group_item in group_list.items():
         index_body += '<h3>'+group_name+'</h3>\n'
@@ -81,7 +83,7 @@ def main():
     # sort them with group
     group_list = {}
     newest_list = []
-    expire_ts = time.time() - 1800; #two days expire
+    expire_ts = time.time() - 2*24*3600; #two days expire
     for link in link_list:
         if 'modify_ts' in link:
             if link['modify_ts'] > expire_ts and len(newest_list) < 5:
