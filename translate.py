@@ -7,7 +7,7 @@ CONTENT_PATH = './content/'
 TEMPLATE_HTML = './template/template.html'
 TEMPLATE_INDEX_HTML = './template/template_index.html'
 INDEX_FILE = 'index'
-SITE_TITLE = '凹凸香港尖货推荐'
+SITE_TITLE = '凹凸环球尖货'
 
 def parse_content(filename):
     title = ''
